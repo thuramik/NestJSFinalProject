@@ -2,19 +2,33 @@ import {Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Qu
 import {CoffeesService} from "./coffees.service";
 import {CreateCoffeeDto} from "./dto/create-coffee.dto";
 import {UpdateCoffeeDto} from "./dto/update-coffee.dto";
+import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
+import {Public} from "../common/decorators/public.decorator";
+import {ParseIntPipe} from "../common/pipes/parse-int.pipe";
+import {Protocol} from "../common/decorators/protocol.decorator";
+import {ApiForbiddenResponse, ApiResponse, ApiTags} from "@nestjs/swagger";
 
+@ApiTags('coffees')
 @Controller('coffees')
 export class CoffeesController {
     constructor(private readonly coffeesService: CoffeesService) {}
 
+    @ApiForbiddenResponse({ description: 'Forbidden.' })
+    @Public()
     @Get()
-    findAll(@Query() paginationQuery) {
+    async findAll(
+        @Protocol() protocol: string,
+        @Query() paginationQuery: PaginationQueryDto
+    ) {
+        console.log(protocol);
         // const { limit, offset } = paginationQuery;
-        return this.coffeesService.findAll();
+        // await new Promise(resolve => setTimeout(resolve, 5000));
+        return this.coffeesService.findAll(paginationQuery);
     }
 
+    @ApiResponse({ status: 403, description: 'Forbidden.' })
     @Get(':id')
-    findOne(@Param('id') id: number) {
+    findOne(@Param('id', ParseIntPipe) id: number) {
         console.log(typeof id);
         const coffee = this.coffeesService.findOne('' + id);
         if (!coffee) {
@@ -25,9 +39,7 @@ export class CoffeesController {
 
     @Post()
     create(@Body() createCoffeeDto: CreateCoffeeDto) {
-        console.log(createCoffeeDto instanceof CreateCoffeeDto);
-        this.coffeesService.create(createCoffeeDto);
-        return createCoffeeDto;
+        return this.coffeesService.create(createCoffeeDto);
     }
 
     @Patch(':id')
