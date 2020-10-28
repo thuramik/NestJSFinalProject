@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CoffeesModule } from './coffees/coffees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
-import { DatabaseModule } from './database/database.module';
 import {ConfigModule} from "@nestjs/config";
 import { CommonModule } from './common/common.module';
-import * as Joi from "@hapi/joi";
+import { UsersModule } from './users/users.module';
+import { ClassesModule } from './classes/classes.module';
+import { LessonsModule } from './lessons/lessons.module';
+import { AuthModule } from './auth/auth.module';
 import appConfig from './config/app.config';
+import { VideosModule } from './videos/videos.module';
+import { KeynotesModule } from './keynotes/keynotes.module';
 
 @Module({
   imports: [
@@ -26,25 +28,14 @@ import appConfig from './config/app.config';
       }),
       ConfigModule.forRoot({
           load: [appConfig],
-          // validationSchema: Joi.object({
-          //     DATABASE_HOST: Joi.required(),
-          //     DATABASE_PORT: Joi.number().default(5432),
-          // }),
       }),
-      CoffeesModule,
-      // TypeOrmModule.forRoot({
-      //     type: 'postgres', // type of our database
-      //     host: process.env.DATABASE_HOST,
-      //     port: +process.env.DATABASE_PORT,
-      //     username: process.env.DATABASE_USER,
-      //     password: process.env.DATABASE_PASSWORD,
-      //     database: process.env.DATABASE_NAME,
-      //     autoLoadEntities: true, // models will be loaded automatically (you don't have to explicitly specify the entities: [] array)
-      //     synchronize: true, // your entities will be synced with the database (ORM will map entity definitions to corresponding SQL tabled), every time you run the application (recommended: disable in the production)
-      // }),
-      CoffeeRatingModule,
       CommonModule,
-      // DatabaseModule,
+      UsersModule,
+      ClassesModule,
+      LessonsModule,
+      AuthModule,
+      VideosModule,
+      KeynotesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

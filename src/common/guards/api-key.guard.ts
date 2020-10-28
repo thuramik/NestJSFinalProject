@@ -4,6 +4,7 @@ import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
+import {USER_SESSION_ID} from "../../auth/constants";
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
@@ -20,7 +21,6 @@ export class ApiKeyGuard implements CanActivate {
       return true;
     }
     const request = context.switchToHttp().getRequest<Request>();
-    const authHeader = request.header('Authorization');
-    return authHeader === this.configService.get('API_KEY');
+    return request.cookies[USER_SESSION_ID] !== undefined && request.cookies[USER_SESSION_ID] === this.configService.get('API_KEY');
   }
 }
