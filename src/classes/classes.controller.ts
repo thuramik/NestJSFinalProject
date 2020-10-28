@@ -12,19 +12,19 @@ import {
     Put,
     Query
 } from '@nestjs/common';
-import {ApiResponse, ApiTags} from "@nestjs/swagger";
+import {ApiCookieAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {CreateClassDto} from "./dto/create-class.dto";
 import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
 import {ParseIntPipe} from "../common/pipes/parse-int.pipe";
 import {UpdateClassDto} from "./dto/update-class.dto";
 import {ClassesService} from "./classes.service";
-import {LessonsAddKeynote} from "../lessons/dto/lesson-add-keynote.dto";
 import {ClassAddLesson} from "./dto/class-add-lesson.dto";
 import {throwError} from "rxjs";
 import {StudentEnroll} from "./dto/student-enroll.dto";
 import {StudentExpel} from "./dto/student-expel.dto";
 
 @ApiTags('Classes')
+@ApiCookieAuth()
 @Controller('classes')
 export class ClassesController {
     constructor(private readonly classesService: ClassesService) {}

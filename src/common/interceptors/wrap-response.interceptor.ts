@@ -11,8 +11,6 @@ import {Request} from "express";
 @Injectable()
 export class WrapResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    console.log('Before...');
-
     const request = context.switchToHttp().getRequest<Request>();
     if (request.method === 'GET') {
       return next.handle().pipe(map(data => ({ data })));

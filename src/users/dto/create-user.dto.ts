@@ -1,6 +1,16 @@
 import {ApiProperty} from "@nestjs/swagger";
-import {UserRole, UserSex} from "../entities/user.entity";
-import {IsString} from "class-validator";
+import {IsEnum, IsString} from "class-validator";
+
+export enum UserSex {
+    MALE = "m",
+    FEMALE = "f"
+}
+
+export enum UserRole {
+    NEWBIE = "newbie",
+    STUDENT = "student",
+    TEACHER = "teacher"
+}
 
 export class CreateUserDto {
     @ApiProperty({ example: 'Yurii Z' })
@@ -20,10 +30,10 @@ export class CreateUserDto {
     password: string;
 
     @ApiProperty({ example: 'm' })
-    @IsString()
+    @IsEnum(UserSex)
     sex: UserSex
 
     @ApiProperty({ example: 'newbie' })
-    @IsString()
+    @IsEnum(UserRole)
     role: UserRole
 }

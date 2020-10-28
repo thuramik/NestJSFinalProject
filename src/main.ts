@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {ValidationPipe} from "@nestjs/common";
 import {HttpExceptionFilter} from "./common/filters/http-exception.filter";
-import {ApiKeyGuard} from "./common/guards/api-key.guard";
 import {WrapResponseInterceptor} from "./common/interceptors/wrap-response.interceptor";
 import {TimeoutInterceptor} from "./common/interceptors/timeout.interceptor";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";

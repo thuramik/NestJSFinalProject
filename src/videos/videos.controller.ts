@@ -13,7 +13,7 @@ import {
     Query
 } from '@nestjs/common';
 import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
-import {ApiResponse, ApiTags} from "@nestjs/swagger";
+import {ApiCookieAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {ParseIntPipe} from "../common/pipes/parse-int.pipe";
 import {VideosService} from "./videos.service";
 import {CreateVideoDto} from "./dto/create-video.dto";
@@ -21,6 +21,7 @@ import {UpdateVideoDto} from "./dto/update-video.dto";
 import {throwError} from "rxjs";
 
 @ApiTags('Videos')
+@ApiCookieAuth()
 @Controller('videos')
 export class VideosController {
     constructor(private readonly videosService: VideosService) {}

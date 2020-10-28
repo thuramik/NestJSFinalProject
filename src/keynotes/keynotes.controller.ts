@@ -14,13 +14,14 @@ import {
 } from '@nestjs/common';
 import {CreateVideoDto} from "../videos/dto/create-video.dto";
 import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
-import {ApiResponse, ApiTags} from "@nestjs/swagger";
+import {ApiCookieAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {ParseIntPipe} from "../common/pipes/parse-int.pipe";
 import {UpdateVideoDto} from "../videos/dto/update-video.dto";
 import {throwError} from "rxjs";
 import {KeynotesService} from "./keynotes.service";
 
 @ApiTags('Keynotes')
+@ApiCookieAuth()
 @Controller('keynotes')
 export class KeynotesController {
     constructor(private readonly keynotesService: KeynotesService) {}

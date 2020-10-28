@@ -13,7 +13,7 @@ import {
     Query
 } from '@nestjs/common';
 import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
-import {ApiResponse, ApiTags} from "@nestjs/swagger";
+import {ApiCookieAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {ParseIntPipe} from "../common/pipes/parse-int.pipe";
 import {throwError} from "rxjs";
 import {LessonsService} from "./lessons.service";
@@ -23,6 +23,7 @@ import {LessonsAddVideo} from "./dto/lesson-add-video.dto";
 import {LessonsAddKeynote} from "./dto/lesson-add-keynote.dto";
 
 @ApiTags('Lessons')
+@ApiCookieAuth()
 @Controller('lessons')
 export class LessonsController {
     constructor(private readonly lessonsService: LessonsService) {}

@@ -1,5 +1,5 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query} from '@nestjs/common';
-import {ApiForbiddenResponse, ApiResponse, ApiTags} from "@nestjs/swagger";
+import {ApiCookieAuth, ApiForbiddenResponse, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {UsersService} from "./users.service";
 import {Public} from "../common/decorators/public.decorator";
 import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
@@ -19,12 +19,14 @@ export class UsersController {
         return { hash: userItem.hash };
     }
 
+    @ApiCookieAuth()
     @Get()
     async findAll(@Query() paginationQuery: PaginationQueryDto) {
         return this.usersService.findAll(paginationQuery);
     }
 
     @ApiResponse({ status: 403, description: 'Forbidden.' })
+    @ApiCookieAuth()
     @Get(':userHash')
     findOne(@Param('userHash', ParseIntPipe) userHash: number) {
         const userItem = this.usersService.findOne(userHash);
@@ -35,12 +37,14 @@ export class UsersController {
     }
 
     @ApiResponse({ status: 403, description: 'Forbidden.' })
+    @ApiCookieAuth()
     @Put(':userHash')
     update(@Param('userHash', ParseIntPipe) userHash: number, @Body() updateUserDto: UpdateUserDto) {
         return this.usersService.update(userHash, updateUserDto);
     }
 
     @ApiResponse({ status: 403, description: 'Forbidden.' })
+    @ApiCookieAuth()
     @Delete(':userHash')
     async delete(@Param('userHash', ParseIntPipe) userHash: number) {
         await this.usersService.remove(userHash);

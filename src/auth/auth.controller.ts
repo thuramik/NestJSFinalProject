@@ -1,7 +1,7 @@
 import {Controller, Post, Headers, Request, Res, HttpStatus, BadRequestException} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {Public} from "../common/decorators/public.decorator";
-import {ApiTags} from "@nestjs/swagger";
+import {ApiCookieAuth, ApiTags} from "@nestjs/swagger";
 import {USER_SESSION_ID} from "./constants";
 
 @ApiTags('Auth')
@@ -24,6 +24,7 @@ export class AuthController {
         response.status(HttpStatus.NO_CONTENT).send();
     }
 
+    @ApiCookieAuth()
     @Post('/logout')
     async logout(@Res() response) {
         response.clearCookie(USER_SESSION_ID);
